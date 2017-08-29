@@ -1,28 +1,27 @@
 # Fixy
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/fixy`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Fixy is a command line tool that will help you grep through those horrible fix message logs.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'fixy'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install fixy
 
 ## Usage
 
-TODO: Write usage instructions here
+```
+Usage: fixy [options] [files]
+Tear the shit out of a fix message log.
+
+Specific options:
+        --show-heartbeats            Output 35=0 rows (filtered out by default).
+        --raw                        Output rows in raw format.
+    -m, --message-type TYPE          Filter for a specific message type.
+    -c, --contains-field NUM         Filter for messages that contain a particular field.
+    -e, --extract-field NUM          Extract a particular field.
+    -h, --help                       You're looking at it!
+```
 
 ## Development
 
