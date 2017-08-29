@@ -1,0 +1,84 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+fix_delim = "^A"
+human_delim = " : "
+extract_field = -1
+heartbeats = false
+message_type = "all"
+contains_field = "all"
+output_raw = false
+
+OptionParser.new do |options|
+  # This banner is the first line of your help documentation.
+  options.set_banner "Usage: fixy [options] [files]\n" \
+    "Tear the shit out of a fix message log."
+
+  # Separator just adds a new line with the specified text.
+  options.separator ""
+  options.separator "Specific options:"
+
+  options.on("--show-heartbeats", "Output 35=0 rows (filtered out by default).") do |flag|
+    heartbeats = flag
+  end
+
+  options.on("--raw", "Output rows in raw format.") do |flag|
+    output_raw = flag
+  end
+
+  options.on("-m", "--message-type TYPE", String, "Filter for a specific message type.") do |value|
+    message_type = value
+  end
+
+  options.on("-c", "--contains-field NUM", Integer, "Filter for messages that contain a particular field.") do |value|
+    contains_field = value
+  end
+
+  options.on("-e", "--extract-field NUM", Integer, "Extract a particular field.") do |value|
+    extract_field = value.to_i
+  end
+
+  options.on_tail("-h", "--help", "You're looking at it!") do
+    $stderr.puts options
+    exit 1
+  end
+end.parse!
+
+# Keep reading lines of input as long as they're coming.
+while input = ARGF.gets
+  input.each_line do |line|
+
+    printable = " " + line.gsub(/[^[:print:]]/, human_delim)
+
+    skip = false
+    skip = true if !heartbeats && printable.include?(" 35=0 ")
+    skip = true if message_type != "all" && !printable.include?(" 35=#{message_type} ")
+    skip = true if contains_field != "all" && !printable.include?(" #{contains_field}=")
+
+    unless skip
+      if extract_field > 0
+        match = printable.match(/#{extract_field.to_s}=[^ ]*/)
+        if match.nil?
+          skip = true
+        else
+          output_line = match[0]
+        end
+      else
+        output_line = printable
+      end
+
+      begin
+        unless skip
+          if output_raw
+            $stdout.puts output_line.gsub(/#{human_delim}/, fix_delim).strip
+          else
+            $stdout.puts output_line
+          end
+        end
+      rescue Errno::EPIPE
+        exit(74)
+      end
+    end
+  end
+end
