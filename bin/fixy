@@ -13,7 +13,7 @@ output_raw = false
 OptionParser.new do |options|
   # This banner is the first line of your help documentation.
   options.set_banner "Usage: fixy [options] [files]\n" \
-    "Tear the shit out of a fix message log."
+    "Fixy helps you grep through your icky fix message logs."
 
   # Separator just adds a new line with the specified text.
   options.separator ""
