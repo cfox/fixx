@@ -1,3 +1,3 @@
-module Fixy
-  VERSION = "0.1.0"
+module Fixx
+  VERSION = "0.1.1"
 end
