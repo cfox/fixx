@@ -1,18 +1,18 @@
-# Fixy
+# Fixx
 
-Fixy is a command line tool that will help you grep through those horrible fix message logs.
+Fixx is a command line tool that will help you grep through those horrible fix message logs.
 
 ## Installation
 
 Install it yourself as:
 
-    $ gem install fixy
+    $ gem install fixx
 
 ## Usage
 
 ```
-Usage: fixy [options] [files]
-Fixy helps you grep through your icky fix message logs.
+Usage: fixx [options] [files]
+Fixx helps you grep through your icky fix message logs.
 
 Specific options:
         --show-heartbeats            Output 35=0 rows (filtered out by default).
@@ -31,7 +31,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/cfox/fixy. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/cfox/fixx. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
@@ -39,4 +39,4 @@ The gem is available as open source under the terms of the [MIT License](http://
 
 ## Code of Conduct
 
-Everyone interacting in the Fixy project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/fixy/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Fixx project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/cfox/fixx/blob/master/CODE_OF_CONDUCT.md).
