@@ -12,7 +12,7 @@ Install it yourself as:
 
 ```
 Usage: fixy [options] [files]
-Tear the shit out of a fix message log.
+Fixy helps you grep through your icky fix message logs.
 
 Specific options:
         --show-heartbeats            Output 35=0 rows (filtered out by default).
