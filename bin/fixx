@@ -4,9 +4,9 @@ require 'optparse'
 
 fix_delim = "^A"
 human_delim = " : "
-extract_field = -1
+extract_fields = "all"
 heartbeats = false
-message_type = "all"
+message_types = "all"
 contains_field = "all"
 output_raw = false
 
@@ -27,16 +27,16 @@ OptionParser.new do |options|
     output_raw = flag
   end
 
-  options.on("-m", "--message-type TYPE", String, "Filter for a specific message type.") do |value|
-    message_type = value
+  options.on("-m", "--message-types t1,t2,t3", String, "Filter for specific message types (comma delimited list).") do |value|
+    message_types = value.split(",").map(&:strip)
   end
 
   options.on("-c", "--contains-field NUM", Integer, "Filter for messages that contain a particular field.") do |value|
     contains_field = value
   end
 
-  options.on("-e", "--extract-field NUM", Integer, "Extract a particular field.") do |value|
-    extract_field = value.to_i
+  options.on("-e", "--extract-fields f1,f2,f3", String, "Extract specific fields (comma delimited list).") do |value|
+    extract_fields = value.split(",").map{|x| x.strip.to_i}
   end
 
   options.on_tail("-h", "--help", "You're looking at it!") do
@@ -53,16 +53,16 @@ while input = ARGF.gets
 
     skip = false
     skip = true if !heartbeats && printable.include?(" 35=0 ")
-    skip = true if message_type != "all" && !printable.include?(" 35=#{message_type} ")
+    skip = true unless message_types == "all" || message_types.any?{|mt| printable.include?(" 35=#{mt} ")}
     skip = true if contains_field != "all" && !printable.include?(" #{contains_field}=")
 
     unless skip
-      if extract_field > 0
-        match = printable.match(/#{extract_field.to_s}=[^ ]*/)
-        if match.nil?
+      if extract_fields != "all"
+        matches = extract_fields.collect{|ef| printable.match(/#{ef.to_s}=[^ ]*/)}.select{|m| !m.nil?}
+        if matches.empty?
           skip = true
         else
-          output_line = match[0]
+          output_line = matches.collect{|m| m[0]}.join(human_delim)
         end
       else
         output_line = printable
